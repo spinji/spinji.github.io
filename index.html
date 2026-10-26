@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SPINJI — Ninja-inspired clothing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#ECEEF2;--surface:#FFFFFF;--ink:#1A1D29;--muted:#5E6475;--line:#D5D9E2;--accent:#2B3FE0;--on-accent:#FFFFFF;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12141C;--surface:#1C1F2B;--ink:#EEF0F6;--muted:#9AA1B5;--line:#2E3242;--accent:#7C8CFF;--on-accent:#10122A}}
+:root[data-theme="dark"]{--bg:#12141C;--surface:#1C1F2B;--ink:#EEF0F6;--muted:#9AA1B5;--line:#2E3242;--accent:#7C8CFF;--on-accent:#10122A}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Onest",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.5}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+header{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+.logo{font-family:"Unbounded",system-ui,sans-serif;font-weight:700;font-size:22px;letter-spacing:-.02em}
+.cartbtn{display:flex;align-items:center;gap:8px;background:var(--ink);color:var(--bg);border:0;border-radius:999px;padding:10px 18px;font-weight:600}
+.cartbtn span{background:var(--accent);color:var(--on-accent);border-radius:999px;min-width:24px;height:24px;display:grid;place-items:center;font-size:13px;padding:0 6px}
+.hero{padding:40px 0 36px}
+.hero h1{font-family:"Unbounded",system-ui,sans-serif;font-weight:700;font-size:clamp(34px,8vw,76px);line-height:1.02;letter-spacing:-.035em;margin:0 0 18px;max-width:16ch}
+.hero p{max-width:46ch;color:var(--muted);font-size:18px;margin:0}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 24px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 16px;font-weight:500}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;padding-bottom:56px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.pic{aspect-ratio:1;display:grid;place-items:center;padding:14px}
+.pic svg{width:100%;height:100%}
+.info{padding:16px;display:flex;flex-direction:column;gap:10px;flex:1}
+.info h2{font-size:17px;margin:0;font-weight:600}
+.info p{margin:0;color:var(--muted);font-size:14px}
+.sizes{display:flex;gap:6px}
+.sizes button{flex:1;border:1px solid var(--line);background:transparent;border-radius:8px;padding:6px 0;font-size:14px}
+.sizes button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent);color:var(--on-accent)}
+.buy{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:6px}
+.price{font-family:"Unbounded",system-ui,sans-serif;font-weight:500;font-size:20px}
+.add{background:var(--accent);color:var(--on-accent);border:0;border-radius:10px;padding:10px 16px;font-weight:600}
+footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);font-size:14px;display:flex;gap:24px;flex-wrap:wrap;justify-content:space-between}
+.shade{position:fixed;inset:0;background:rgba(10,12,20,.5);display:none;z-index:20}
+.shade.on{display:block}
+aside{position:fixed;top:0;right:0;bottom:0;width:min(400px,100%);background:var(--surface);z-index:21;transform:translateX(100%);transition:transform .25s;display:flex;flex-direction:column;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+aside.on{transform:none}
+.ch{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line)}
+.ch h3{margin:0;font-family:"Unbounded",system-ui,sans-serif;font-size:18px}
+.x{background:none;border:0;font-size:26px;line-height:1}
+.items{flex:1;overflow-y:auto;padding:8px 20px}
+.row{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.row svg{width:56px;height:56px;background:var(--bg);border-radius:10px}
+.row b{display:block;font-weight:600;font-size:15px}
+.row small{color:var(--muted)}
+.qty{display:flex;align-items:center;gap:6px;margin-top:4px}
+.qty button{width:26px;height:26px;border-radius:6px;border:1px solid var(--line);background:transparent;line-height:1}
+.rm{background:none;border:0;color:var(--muted);font-size:13px;text-decoration:underline}
+.empty{color:var(--muted);padding:32px 0;text-align:center}
+.cf{padding:18px 20px;border-top:1px solid var(--line)}
+.tot{display:flex;justify-content:space-between;font-weight:600;font-size:18px;margin-bottom:12px}
+.cf .add{width:100%;padding:14px}
+.cf .add:disabled{opacity:.4;cursor:not-allowed}
+.msg{margin-top:10px;font-size:14px;color:var(--accent);min-height:20px}
+.sz{padding:8px 0 56px}
+.sz h2{font-family:"Unbounded",system-ui,sans-serif;font-weight:700;font-size:clamp(22px,4vw,30px);letter-spacing:-.02em;margin:0 0 20px}
+.szbox{display:grid;grid-template-columns:minmax(0,260px) 1fr;gap:28px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px}
+.szbox svg{width:100%;height:auto}
+.tw{overflow-x:auto}
+.szt{width:100%;border-collapse:collapse;text-align:center}
+.szt th,.szt td{padding:14px 8px;border-bottom:1px solid var(--line)}
+.szt th{font-weight:600;font-size:14px}
+.szt td:first-child,.szt th:first-child{font-weight:600}
+.szt tr:last-child td{border-bottom:0}
+.szt small{display:block;color:var(--muted);font-weight:400}
+.dot{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--on-accent);font-size:12px;margin-right:6px}
+@media (max-width:640px){.szbox{grid-template-columns:1fr;padding:16px}.szbox svg{max-width:240px;margin:0 auto}}
+@media (prefers-reduced-motion:reduce){aside{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">SPINJI</div>
+    <button class="cartbtn" id="open" aria-label="Открыть корзину">Корзина <span id="count">0</span></button>
+  </header>
+  <section class="hero">
+    <h1>SPINJI, <span style="white-space:nowrap">Ninja-inspired</span> clothing ⚡️</h1>
+    <p>Плотный хлопок 100%, принты наносим вручную. Доставка по всему СНГ.</p>
+  </section>
+  <div class="bar" id="filters" role="group" aria-label="Фильтр по цвету"></div>
+  <main class="grid" id="grid"></main>
+  <section class="sz" id="sizes">
+    <h2>Таблица размеров</h2>
+    <div class="szbox">
+      <svg viewBox="0 0 200 200" role="img" aria-label="Схема замеров футболки: длина A, ширина B, длина рукава C">
+        <path d="M70 20L40 35 10 70l25 20 20-12v102h90V78l20 12 25-20-30-35-30-15q-30 25-60 0z" fill="var(--bg)" stroke="var(--line)" stroke-width="2" stroke-linejoin="round"/>
+        <g stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="5 4" stroke-linecap="round"><path d="M100 38V180"/><path d="M55 125H145"/><path d="M164 30L194 64"/></g>
+        <g fill="var(--accent)" font-family="Unbounded,system-ui,sans-serif" font-weight="700" font-size="16"><text x="108" y="160">A</text><text x="96" y="118">B</text><text x="176" y="40">C</text></g>
+      </svg>
+      <div class="tw">
+        <table class="szt">
+          <thead><tr><th>Размер</th><th><span class="dot">A</span>Длина<small>см</small></th><th><span class="dot">B</span>Ширина<small>см</small></th><th><span class="dot">C</span>Рукав<small>см</small></th></tr></thead>
+          <tbody>
+            <tr><td>S</td><td>68</td><td>49</td><td>22</td></tr>
+            <tr><td>M</td><td>70</td><td>51</td><td>22</td></tr>
+            <tr><td>L</td><td>72</td><td>53</td><td>23</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div>© 2026 SPINJI. Обмен и возврат в течение 30 дней.</div>
+    <div>spinji.wear · Заказы принимаем в Telegram</div>
+  </footer>
+</div>
+
+<div class="shade" id="shade"></div>
+<aside id="cart" aria-label="Корзина" aria-hidden="true">
+  <div class="ch"><h3>Ваша корзина</h3><button class="x" id="close" aria-label="Закрыть">×</button></div>
+  <div class="items" id="items"></div>
+  <div class="cf">
+    <div class="tot"><span>Итого</span><span id="total">0 ₽</span></div>
+    <button class="add" id="order">Оформить в Telegram</button>
+    <div class="msg" id="msg" role="status"></div>
+  </div>
+</aside>
+
+<script>
+var PRODUCTS=[
+ {id:1,name:"Волна",price:1490,color:"Синие",bg:"#2B3FE0",fg:"#F2F4FF",art:"wave"},
+ {id:2,name:"Горы",price:1490,color:"Красные",bg:"#D6334A",fg:"#FFE9EC",art:"peak"},
+ {id:3,name:"Солнце",price:1490,color:"Голубые",bg:"#8DB7F5",fg:"#1A1D29",art:"sun"},
+ {id:4,name:"Тишина",price:1490,color:"Белые",bg:"#F4F4F1",fg:"#1A1D29",art:"none"},
+ {id:5,name:"Ночной город",price:1490,color:"Чёрные",bg:"#1A1D29",fg:"#C9D1FF",art:"city"},
+ {id:6,name:"Арбуз",price:1490,color:"Красные",bg:"#D6334A",fg:"#FFE9EC",art:"slice"},
+ {id:7,name:"Ромашка",price:1490,color:"Белые",bg:"#F4F4F1",fg:"#D6334A",art:"flower"},
+ {id:8,name:"Облако",price:1490,color:"Голубые",bg:"#8DB7F5",fg:"#FFFFFF",art:"cloud"}
+];
+var SIZES=["S","M","L"];
+var TG_USER="jkkei99";
+var ART={
+ wave:'<path d="M70 100q10-14 20 0t20 0 20 0 20 0" fill="none" stroke="F" stroke-width="5" stroke-linecap="round"/><path d="M70 116q10-14 20 0t20 0 20 0 20 0" fill="none" stroke="F" stroke-width="5" stroke-linecap="round"/>',
+ peak:'<path d="M70 125l25-40 15 22 12-16 18 34z" fill="F"/>',
+ sun:'<circle cx="100" cy="102" r="16" fill="F"/><g stroke="F" stroke-width="4" stroke-linecap="round"><path d="M100 74v-8M100 130v8M72 102h-8M128 102h8M80 82l-6-6M120 122l6 6M120 82l6-6M80 122l-6 6"/></g>',
+ none:'',
+ city:'<path d="M72 130v-30h12v-14h14v-10h12v24h12v-12h14v42z" fill="F"/>',
+ slice:'<path d="M72 92a28 28 0 0 0 56 0z" fill="F"/><circle cx="92" cy="104" r="2.5" fill="#1A1D29"/><circle cx="104" cy="110" r="2.5" fill="#1A1D29"/><circle cx="114" cy="100" r="2.5" fill="#1A1D29"/>',
+ flower:'<g fill="none" stroke="F" stroke-width="4"><circle cx="100" cy="92" r="6"/><circle cx="100" cy="76" r="7"/><circle cx="100" cy="108" r="7"/><circle cx="84" cy="92" r="7"/><circle cx="116" cy="92" r="7"/></g>',
+ cloud:'<path d="M78 118a14 14 0 0 1 4-27 20 20 0 0 1 38 4 12 12 0 0 1-2 23z" fill="F"/>'
+};
+function shirt(p,small){
+  var art=(ART[p.art]||"").replace(/"F"/g,'"'+p.fg+'"').replace(/fill="F"/g,'fill="'+p.fg+'"');
+  var edge=p.bg==="#F4F4F1"?'#C9CDD8':'rgba(0,0,0,.18)';
+  return '<svg viewBox="0 0 200 200" role="img" aria-label="Футболка «'+p.name+'»"><path d="M70 20L40 35 10 70l25 20 20-12v102h90V78l20 12 25-20-30-35-30-15q-30 25-60 0z" fill="'+p.bg+'" stroke="'+edge+'" stroke-width="1.5" stroke-linejoin="round"/>'+art+'</svg>';
+}
+function fmt(n){return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,"\u00A0")+"\u00A0₽";}
+var cart=[],filter="Все",sel={};
+function renderFilters(){
+  var cs=["Все"];PRODUCTS.forEach(function(p){if(cs.indexOf(p.color)<0)cs.push(p.color);});
+  var f=document.getElementById("filters");f.innerHTML="";
+  cs.forEach(function(c){var b=document.createElement("button");b.className="chip";b.textContent=c;b.setAttribute("aria-pressed",c===filter);b.onclick=function(){filter=c;renderFilters();renderGrid();};f.appendChild(b);});
+  var s=document.createElement("button");s.className="chip";s.style.marginLeft="auto";s.textContent="Таблица размеров";s.onclick=function(){document.getElementById("sizes").scrollIntoView({behavior:"smooth"});};f.appendChild(s);
+}
+function renderGrid(){
+  var g=document.getElementById("grid");g.innerHTML="";
+  PRODUCTS.filter(function(p){return filter==="Все"||p.color===filter;}).forEach(function(p){
+    var s=sel[p.id]||"M";
+    var c=document.createElement("article");c.className="card";
+    c.innerHTML='<div class="pic" style="background:var(--bg)">'+shirt(p)+'</div><div class="info"><h2>'+p.name+'</h2><p>100% хлопок</p><div class="sizes" role="group" aria-label="Размер">'+SIZES.map(function(z){return '<button data-z="'+z+'" aria-pressed="'+(z===s)+'">'+z+'</button>';}).join("")+'</div><div class="buy"><span class="price">'+fmt(p.price)+'</span><button class="add" data-id="'+p.id+'">В корзину</button></div></div>';
+    c.querySelectorAll(".sizes button").forEach(function(b){b.onclick=function(){sel[p.id]=b.dataset.z;c.querySelectorAll(".sizes button").forEach(function(x){x.setAttribute("aria-pressed",x===b);});};});
+    c.querySelector(".add").onclick=function(){add(p.id,sel[p.id]||"M");};
+    g.appendChild(c);
+  });
+}
+function add(id,size){
+  var it=cart.filter(function(i){return i.id===id&&i.size===size;})[0];
+  if(it)it.q++;else cart.push({id:id,size:size,q:1});
+  renderCart();openCart();
+}
+function renderCart(){
+  var box=document.getElementById("items"),total=0,n=0;box.innerHTML="";
+  if(!cart.length)box.innerHTML='<div class="empty">В корзине пока пусто. Выберите футболку и размер.</div>';
+  cart.forEach(function(i,idx){
+    var p=PRODUCTS.filter(function(x){return x.id===i.id;})[0];total+=p.price*i.q;n+=i.q;
+    var r=document.createElement("div");r.className="row";
+    r.innerHTML=shirt(p)+'<div><b>'+p.name+'</b><small>Размер '+i.size+' · '+fmt(p.price)+'</small><div class="qty"><button aria-label="Меньше">−</button><span>'+i.q+'</span><button aria-label="Больше">+</button></div></div><button class="rm">Удалить</button>';
+    var b=r.querySelectorAll(".qty button");
+    b[0].onclick=function(){i.q--;if(i.q<1)cart.splice(idx,1);renderCart();};
+    b[1].onclick=function(){i.q++;renderCart();};
+    r.querySelector(".rm").onclick=function(){cart.splice(idx,1);renderCart();};
+    box.appendChild(r);
+  });
+  document.getElementById("count").textContent=n;
+  document.getElementById("total").textContent=fmt(total);
+  document.getElementById("order").disabled=!cart.length;
+}
+function openCart(){document.getElementById("cart").classList.add("on");document.getElementById("cart").setAttribute("aria-hidden","false");document.getElementById("shade").classList.add("on");}
+function closeCart(){document.getElementById("cart").classList.remove("on");document.getElementById("cart").setAttribute("aria-hidden","true");document.getElementById("shade").classList.remove("on");}
+document.getElementById("open").onclick=openCart;
+document.getElementById("close").onclick=closeCart;
+document.getElementById("shade").onclick=closeCart;
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeCart();});
+document.getElementById("order").onclick=function(){
+  var msg=document.getElementById("msg");
+  if(!TG_USER){msg.textContent="Telegram ещё не подключён: укажите имя аккаунта для приёма заказов.";return;}
+  var lines=["Новый заказ SPINJI (https://spinji.wear)"],total=0;
+  cart.forEach(function(i,n){
+    var p=PRODUCTS.filter(function(x){return x.id===i.id;})[0];total+=p.price*i.q;
+    lines.push((n+1)+". "+p.name+" ("+p.color.toLowerCase()+"), размер "+i.size+" × "+i.q+" = "+fmt(p.price*i.q));
+  });
+  lines.push("Итого: "+fmt(total));
+  lines.push("Страна и адрес доставки: ");
+  var url="https://t.me/"+TG_USER+"?text="+encodeURIComponent(lines.join("\n"));
+  var text=lines.join("\n");
+  msg.innerHTML="";
+  msg.appendChild(document.createTextNode("Нажмите «Открыть Telegram» и отправьте сообщение для @"+TG_USER+". "));
+  var a=document.createElement("a");a.href=url;a.target="_blank";a.rel="noopener";a.textContent="Открыть Telegram";a.style.cssText="font-weight:600;color:var(--accent)";
+  var cp=document.createElement("button");cp.className="rm";cp.textContent="Скопировать заказ";cp.style.marginLeft="12px";
+  function fallback(){var t=document.createElement("textarea");t.readOnly=true;t.value=text;t.rows=6;t.style.cssText="width:100%;margin-top:10px;font:inherit;font-size:13px;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px";msg.appendChild(t);t.focus();t.select();cp.remove();}
+  cp.onclick=function(){try{navigator.clipboard.writeText(text).then(function(){cp.textContent="Скопировано";},fallback);}catch(e){fallback();}};
+  msg.appendChild(a);msg.appendChild(cp);
+  try{window.open(url,"_blank");}catch(e){}
+};
+renderFilters();renderGrid();renderCart();
+</script>
+</body>
+</html>
